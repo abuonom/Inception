@@ -1,0 +1,68 @@
+version: '3'
+services:
+  mariadb:
+    container_name: mariadb #nome del container
+    networks:
+      - inception # definisce una rete di tipo bridge nominata wp-network che permette la comunicazione tra i container
+    build:
+      context: requirements/mariadb #dove si trova il suo dockerfile
+      dockerfile: Dockerfile #il nome del file
+    env_file: .env #il file di environment da cui prendere le variabile
+    volumes:
+      - mariadb:/var/lib/mysql #i volumi per la persistenza dei dati, in parole povere le directory dove salviamo i dati
+    restart: unless-stopped #finchè non viene stoppato, anche se va in down, deve ripartire
+    expose:
+      - "3306" #la porta sulla quale si espone
+  nginx:
+    container_name: nginx #nome del container
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception #il network al quale è collegato
+    depends_on:
+      #indica che non è possibile avviare NGINX se non è avviato anche Wordpress, in quanto dipendono l'uno dall'altro
+      - wordpress
+    build:
+      context: requirements/nginx #dove si trova il suo dockerfile
+      dockerfile: Dockerfile #il nome del file
+    env_file: .env #il file di environment da cui prendere le variabile
+    ports:
+      - "443:443" #indichiamo la porta che è esposta alla macchina locale
+    restart: on-failure #il container si riavvia solo in caso di crash
+  wordpress:
+    container_name: wordpress #nome del container
+    env_file: .env #il file di environment da cui prendere le variabile
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception #il network al quale è collegato
+    build:
+      context: requirements/nginx #dove si trova il suo dockerfile
+      dockerfile: Dockerfile #il nome del file
+    depends_on:
+      #indica che non è possibile avviare NGINX se non è avviato anche Wordpress, in quanto dipendono l'uno dall'altro
+      - mariadb
+    restart: on-failure #il container si riavvia solo in caso di crash
+    expose:
+      - "9000" #indichiamo la porta che è esposta alla macchina locale
+
+#Questi volumi, sono indipendenti dai container singoli
+#Questi volumi, possono essere condivisi tra più container
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none' # Specifica che non c'è un tipo di volume filesystem specifico, utilizzato con Bind Mounts.
+      o: 'bind' # Opzione per indicare che si tratta di un Bind Mount, significa che tutti i dati generati dal servizio WordPress e dal database MariaDB saranno memorizzati direttamente sul sistema in queste cartelle.
+      device: '/home/alessio/storage/wordpress' # Percorso fisico sul sistema host dove i dati del volume saranno memorizzati.
+
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/alessio/storage/mariadb' # Percorso fisico sul sistema host per i dati di MariaDB.
+
+networks:
+  inception:
+    driver: bridge #questa regola, indica a Docker di installare le regole che consentono ai 3 container di comunicare via bridge

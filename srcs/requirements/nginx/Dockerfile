@@ -14,4 +14,4 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 #Modifichiamo i permessi per essere sicuri di poter accedere
 RUN chmod 755 /var/www/html && chown -R www-data:www-data /var/www/html
 #Lanciamo nginx in modo che il container non si interrompa
-CMD [ "nginx","-g","daemon off;" ]
+CMD ["nginx", "-g", "daemon off;"]
