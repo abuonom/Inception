@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   mariadb:
     container_name: mariadb #nome del container
@@ -44,7 +44,7 @@ services:
       - mariadb
     restart: on-failure #il container si riavvia solo in caso di crash
     expose:
-      - "9000" #indichiamo la porta che è esposta alla macchina locale
+      - "9000:9000" #indichiamo la porta che è esposta alla macchina locale
 
 #Questi volumi, sono indipendenti dai container singoli
 #Questi volumi, possono essere condivisi tra più container
