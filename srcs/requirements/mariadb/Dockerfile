@@ -1,4 +1,3 @@
-#Immagine del OS dal quale partire. Penultima versione stabile
 FROM debian:bullseye
 RUN apt update -y && apt upgrade -y
 RUN apt-get install mariadb-server -y

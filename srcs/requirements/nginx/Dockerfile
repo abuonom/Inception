@@ -11,7 +11,11 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/ngin
 RUN mkdir -p /var/run/nginx
 #Sostituiamo il nostro file di config, a quello di default di nginx
 COPY conf/nginx.conf /etc/nginx/nginx.conf
+RUN chmod 755 /var/www/
+RUN chown -R www-data:www-data /var/www/
 #Modifichiamo i permessi per essere sicuri di poter accedere
 RUN chmod 755 /var/www/html && chown -R www-data:www-data /var/www/html
 #Lanciamo nginx in modo che il container non si interrompa
-CMD ["nginx", "-g", "daemon off;"]
+COPY /tools/nginx.sh /
+RUN chmod +x /nginx.sh
+CMD [ "/nginx.sh" ]

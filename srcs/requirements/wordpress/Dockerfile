@@ -14,8 +14,8 @@ RUN apt update \
  && mv wp-cli.phar /usr/local/bin/wp
 
 COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-COPY /tools/script.sh /
+COPY /tools/wordpress.sh /
 
-RUN chmod +x /script.sh
+RUN chmod +x /wordpress.sh
 
-CMD [ "/script.sh" ]
+CMD [ "/wordpress.sh" ]

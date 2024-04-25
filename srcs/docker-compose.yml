@@ -37,7 +37,7 @@ services:
     networks:
       - inception #il network al quale è collegato
     build:
-      context: requirements/nginx #dove si trova il suo dockerfile
+      context: requirements/wordpress #dove si trova il suo dockerfile
       dockerfile: Dockerfile #il nome del file
     depends_on:
       #indica che non è possibile avviare NGINX se non è avviato anche Wordpress, in quanto dipendono l'uno dall'altro
@@ -54,14 +54,14 @@ volumes:
     driver_opts:
       type: 'none' # Specifica che non c'è un tipo di volume filesystem specifico, utilizzato con Bind Mounts.
       o: 'bind' # Opzione per indicare che si tratta di un Bind Mount, significa che tutti i dati generati dal servizio WordPress e dal database MariaDB saranno memorizzati direttamente sul sistema in queste cartelle.
-      device: '/home/alessio/storage/wordpress' # Percorso fisico sul sistema host dove i dati del volume saranno memorizzati.
+      device: '/home/alessio/Desktop/storage/wordpress' # Percorso fisico sul sistema host dove i dati del volume saranno memorizzati.
 
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/alessio/storage/mariadb' # Percorso fisico sul sistema host per i dati di MariaDB.
+      device: '/home/alessio/Desktop/storage/mariadb' # Percorso fisico sul sistema host per i dati di MariaDB.
 
 networks:
   inception:
