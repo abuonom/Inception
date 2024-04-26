@@ -8,8 +8,8 @@ re : volumeclean up
 reboot : down up
 
 volumeclean: down
-	@rm -rf /home/${USER}/data/wordpress/*
-	@rm -rf /home/${USER}/data/mariadb/*
+	@sudo rm -rf /home/${USER}/data/wordpress/*
+	@sudo rm -rf /home/${USER}/data/mariadb/*
 up:
 	@if [ ! -f srcs/.env ]; then \
 	touch srcs/.env ; \
