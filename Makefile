@@ -11,8 +11,11 @@ volumeclean: down
 	@sudo rm -rf /home/${USER}/data/wordpress/*
 	@sudo rm -rf /home/${USER}/data/mariadb/*
 up:
-	sudo rm srcs/.env \
-	sudo touch srcs/.env ; \
+	@if [ -f srcs/.env ]; then \
+	rm srcs/.env ; \
+	fi
+	@if [ ! -f srcs/.env ]; then \
+	touch srcs/.env ; \
 	sudo echo DOMAIN_NAME=${USER}.42.fr >> srcs/.env; \
 	sudo echo CERTS_=/etc/nginx/ssl/inception.crt >> srcs/.env; \
 	sudo echo KEYS_=/etc/nginx/ssl/inception.key >> srcs/.env; \
@@ -28,6 +31,7 @@ up:
 	sudo echo db_pwd=chelevuoivinceretutte >> srcs/.env; \
 	sudo echo SQL_ROOT_PASSWORD=1234 >> srcs/.env; \
 	sudo echo USERDOCKER=${USER} >> srcs/.env; \
+	fi
 	@if [ ! -d /home/${USER}/data ]; then \
 	sudo mkdir /home/${USER}/data; \
 	sudo mkdir /home/${USER}/data/wordpress; \
@@ -69,5 +73,5 @@ logs:
 
 modify_hosts:
 	@sudo echo "Modifica del file /etc/hosts..."
-	@sudo sed -i '1s/^.*$$/127.0.0.1	https:\/\/$(USER).42.fr\//' /etc/hosts
+	@sudo sed -i '1s/^.*$$/127.0.0.1https:\/\/$(USER).42.fr\//' /etc/hosts
 	@sudo echo "Fatto."
