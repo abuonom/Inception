@@ -13,7 +13,7 @@ volumeclean: down
 up:
 	@if [ ! -f srcs/.env ]; then \
 	touch srcs/.env ; \
-	sudo echo DOMAIN_NAME=localhost >> srcs/.env; \
+	sudo echo DOMAIN_NAME=${USER}.42.fr >> srcs/.env; \
 	sudo echo CERTS_=/etc/nginx/ssl/inception.crt >> srcs/.env; \
 	sudo echo KEYS_=/etc/nginx/ssl/inception.key >> srcs/.env; \
 	sudo echo WP_TITLE=${USER}WP >> srcs/.env; \
