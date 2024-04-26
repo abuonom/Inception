@@ -70,5 +70,5 @@ logs:
 
 modify_hosts:
 	@sudo echo "Modifica del file /etc/hosts..."
-	@sudo sed -i '1s/^.*$$/127.0.0.1 https:\/\/$(USER).42.fr\//' /etc/hosts
+	@sudo sed -i '1s/^.*$$/127.0.0.1	https:\/\/$(USER).42.fr\//' /etc/hosts
 	@sudo echo "Fatto."
