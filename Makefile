@@ -3,11 +3,11 @@ all : up
 
 clean : down
 
-re : vclean up
+re : volumeclean up
 
 reboot : down up
 
-vclean: down
+volumeclean: down
 	@rm -rf /home/manuele/data/wordpress/*
 	@rm -rf /home/manuele/data/mariadb/*
 up:
