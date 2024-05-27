@@ -72,6 +72,6 @@ logs:
 	@sudo docker logs mariadb
 
 modify_hosts:
-	@sudo echo "Modifica del file /etc/hosts..."
-	@sudo sed -i '1s/^.*$$/127.0.0.1	$(USER).42.fr' /etc/hosts
-	@sudo echo "Fatto."
+	@sudo sh -c "echo 'Modifica del file /etc/hosts...'"
+	@sudo sh -c "sed -i '1c\127.0.0.1\t$(USER).42.fr' /etc/hosts"
+	@sudo sh -c "echo 'Fatto.'"
